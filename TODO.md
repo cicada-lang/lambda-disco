@@ -1,6 +1,11 @@
-- I do not know about the use of both `forall` and `Pi` in some System of the cube.
-
 - add bidirectional type checking to lambda
+
+# learn
+
+- https://en.wikipedia.org/wiki/System_F
+- https://en.wikipedia.org/wiki/ML_(programming_language)
+- https://en.wikipedia.org/wiki/Logical_framework
+- https://en.wikipedia.org/wiki/Lambda_calculus_definition#Weak_head_normal_form
 
 # Why?
 
