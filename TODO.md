@@ -1,10 +1,13 @@
+- I do not know about the use of both `forall` and `Pi` in some System of the cube.
+
 - add bidirectional type checking to lambda
 
-- to learn self types, i think i need to learn lambda-cube and CoC.
-- the bast way to learn lambda-cube and CoC is to implement it.
-  - follow example of lambda-cube in wikipedia
-- we can learn CoC with Coq.
-- lambda cube -- structural pi
+# Why?
 
-- lambda cube
-  - ~/persons/henk-barendregt/intro/introduction-to-generalized-type-systems.pdf
+- to learn self types, i think i need to learn lambda-cube and CoC.
+
+  - the bast way to learn lambda-cube and CoC is to implement it.
+
+    - we can learn CoC with Coq.
+
+  - lambda cube founding paper: ~/persons/henk-barendregt/intro/introduction-to-generalized-type-systems.pdf
