@@ -1,18 +1,17 @@
 {
-  "name": "@cicada-lang/lambda",
-  "version": "0.0.17",
-  "repository": "github:cicada-lang/lambda",
+  "name": "@cicada-lang/lambda-cube",
+  "version": "0.0.1",
+  "repository": "github:cicada-lang/lambda-cube",
   "files": [
     "lib"
   ],
   "bin": {
-    "lambda": "bin/lambda.js"
+    "lambda-cube": "bin/lambda-cube.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
     "test:js": "enchanter test node 'lib/**/*.test.js'",
-    "test:lambda": "enchanter test './bin/lambda.js run' 'docs/tests/**/*.scm'",
     "test": "npm-run-all test:*",
     "format": "prettier src docs --write"
   },
