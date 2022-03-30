@@ -1,3 +1,4 @@
+- how tdd will improve my understanding of lambda-cube?
 - add bidirectional type checking to lambda
 
 # Why?
