@@ -10,14 +10,34 @@ because we want to infer application of `ind-Nat`.
 ```scheme
 (claim ind-Nat
   (Pi ((target Nat)
-       (motive (-> Nat Type))
+       (motive (Pi ((target Nat)) Type))
        (base (motive zero))
-       (step (Pi ((prev Nat))
-               (-> (motive prev)
-                   (motive (add1 prev))))))
+       (step (Pi ((prev Nat)
+                  (almost (motive prev)))
+               (motive (add1 prev)))))
     (motive target)))
 
-(define (ind-Nat target motive base step) (target motive base step))
+(define (ind-Nat target motive base step)
+  (target motive base step))
+
+;; NOTE Maybe we should also allow the following syntax.
+
+(claim ind-Nat
+  (Pi ((target Nat)
+       ((motive (target Nat)) Type)
+       (base (motive zero))
+       ((step (prev Nat)
+              (almost (motive prev)))
+        (motive (add1 prev))))
+    (motive target)))
+
+(claim (ind-Nat (target Nat)
+         ((motive (target Nat)) Type)
+         (base (motive zero))
+         ((step (prev Nat)
+                (almost (motive prev)))
+          (motive (add1 prev))))
+  (motive target))
 ```
 
 We already know `(ind-Nat zero motive)`
@@ -89,9 +109,9 @@ Here comes **self type**.
   (Self (target)
     (Pi ((motive (-> Nat Type))
          (base (motive zero))
-         (step (Pi ((prev Nat))
-                 (-> (motive prev)
-                     (motive (add1 prev))))))
+         (step (Pi ((prev Nat)
+                    (almost (motive prev)))
+                 (motive (add1 prev)))))
       (motive target))))
 ```
 
