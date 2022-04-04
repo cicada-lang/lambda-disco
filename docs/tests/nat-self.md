@@ -138,9 +138,15 @@ which just apply the `target` to the reset of the arguments.
   (target motive base step))
 ```
 
-Also note that, in the defining of `Nat`,
+Note that, in the defining of `Nat`,
 `zero` and `add1` occurred,
 but the type of `zero` is `Nat`.
+
+And `Nat` also occurred in the defining of `Nat`,
+but this does not require us to have a `Nat` to build a `Nat`
+(If so, we won't be able to build the first `Nat`),
+instead if require us to have functions
+which take `Nat` as argument to build a `Nat`.
 
 This means we must define them as a group.
 
