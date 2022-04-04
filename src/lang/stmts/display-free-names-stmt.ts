@@ -7,10 +7,10 @@ export class DisplayFreeNamesStmt extends Stmt {
     super()
   }
 
-  async execute(mod: Mod): Promise<void> {
+  async execute(mod: Mod): Promise<void | string> {
     const freeNames = this.exp.freeNames(new Set())
-    const output = `(free-names ${Array.from(freeNames).join(" ")})`
-    console.log(output)
-    mod.output += output + "\n"
+    return `(free-names ${Array.from(freeNames).join(" ")})`
   }
+
+  async undo(mod: Mod): Promise<void> {}
 }

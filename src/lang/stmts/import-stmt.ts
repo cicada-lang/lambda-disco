@@ -11,8 +11,8 @@ export class ImportStmt extends Stmt {
     super()
   }
 
-  async execute(mod: Mod): Promise<void> {
-    const importedMod = await mod.load(this.path)
+  async execute(mod: Mod): Promise<void | string> {
+    const importedMod = await mod.import(this.path)
     for (const { name, rename } of this.entries) {
       const def = importedMod.defs.get(name)
       if (def === undefined) {
@@ -22,6 +22,12 @@ export class ImportStmt extends Stmt {
       }
 
       mod.defs.set(rename || name, def)
+    }
+  }
+
+  async undo(mod: Mod): Promise<void> {
+    for (const { name, rename } of this.entries) {
+      mod.defs.delete(rename || name)
     }
   }
 }

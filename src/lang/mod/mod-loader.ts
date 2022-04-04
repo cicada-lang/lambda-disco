@@ -1,67 +1,39 @@
-import { ParsingError } from "@cicada-lang/sexp/lib/errors"
-import { builtinUrlLoaders, UrlLoader } from "../../ut/url-loader"
+import { Fetcher } from "../../infra/fetcher"
+import { BlockLoader } from "../block"
+import * as BlockParsers from "../block/block-parsers"
 import { Mod } from "../mod"
-import { Parser } from "../parser"
 
 export class ModLoader {
   cache: Map<string, Mod> = new Map()
-  urlLoaders: Record<string, UrlLoader>
+  fetcher = new Fetcher()
+  blockLoader = new BlockLoader()
 
-  constructor(options?: { urlLoaders?: Record<string, UrlLoader> }) {
-    this.urlLoaders = {
-      ...builtinUrlLoaders,
-      ...(options?.urlLoaders || {}),
-    }
+  constructor() {
+    this.blockLoader.route(
+      (url) => url.href.endsWith(".md"),
+      new BlockParsers.MarkdownBlockParser()
+    )
+    this.blockLoader.fallback(new BlockParsers.WholeBlockParser())
   }
 
-  get knownProtocols(): Array<string> {
-    return Object.keys(this.urlLoaders)
-  }
-
-  async loadText(url: URL): Promise<string> {
-    const load = this.urlLoaders[url.protocol]
-    if (load === undefined) {
-      throw new Error(
-        [
-          `I can not handle protocol: ${JSON.stringify(url.protocol)},`,
-          `  known protocols are: ${JSON.stringify(this.knownProtocols)}`,
-        ].join("\n")
-      )
-    }
-
-    return await load(url)
-  }
-
-  async load(
-    url: URL,
-    options?: {
-      text?: string
-    }
-  ): Promise<Mod> {
+  async load(url: URL, options?: { code?: string }): Promise<Mod> {
     const found = this.cache.get(url.href)
-    if (found !== undefined) {
-      return found
-    }
+    if (found !== undefined) return found
 
-    const mod = new Mod(url, { loader: this })
-    const parser = new Parser()
-    const text = options?.text ?? (await this.loadText(url))
+    const code = options?.code ?? (await this.fetcher.fetch(url))
+    const blocks = this.blockLoader.load(url, code)
+    const mod = new Mod(url, { loader: this, blocks })
 
-    try {
-      const stmts = parser.parseStmts(text)
-      for (const stmt of stmts) {
-        await stmt.execute(mod)
-      }
+    this.cache.set(url.href, mod)
+    return mod
+  }
 
-      this.cache.set(url.href, mod)
-      return mod
-    } catch (error) {
-      if (error instanceof ParsingError) {
-        const report = error.span.report(text)
-        console.error(report)
-      }
-
-      throw error
-    }
+  async loadAndExecute(
+    url: URL,
+    options?: { code?: string; silent?: boolean }
+  ): Promise<Mod> {
+    const mod = await this.load(url, options)
+    await mod.executeAllBlocks(options)
+    return mod
   }
 }

@@ -7,7 +7,11 @@ export class DefineStmt extends Stmt {
     super()
   }
 
-  async execute(mod: Mod): Promise<void> {
+  async execute(mod: Mod): Promise<void | string> {
     mod.define(this.name, this.exp)
+  }
+
+  async undo(mod: Mod): Promise<void> {
+    mod.defs.delete(this.name)
   }
 }
