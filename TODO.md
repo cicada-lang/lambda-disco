@@ -12,8 +12,6 @@
 - [self type] read self type paper
 - [self type] fu peng and his teacher's language projects
 
-- [coq] coq-in-a-hurry
-- [coq] software-foundations
 - [coq] cpdt
 
 - [lambda cube] lambda cube paper
