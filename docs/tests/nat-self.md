@@ -252,7 +252,7 @@ Check `zero` is `Nat`.
    zero Nat)
 
  ;; NOTE Why `zero` is of type `Nat` here?
- ((=> How?))
+ (=> How?)
 
  (Check (ctx ((motive (-> Nat Type))
               (base (motive zero))
@@ -262,7 +262,7 @@ Check `zero` is `Nat`.
    base
    (motive zero))
 
- ((=> Check lookup)))
+ (=> Check lookup))
 ```
 
 Check `add1` is `(-> Nat Nat)`.
@@ -355,7 +355,7 @@ Check `add1` is `(-> Nat Nat)`.
      (-> (motive prev)
          (motive (add1 prev)))))
 
- ((=> Check lookup))
+ (=> Check lookup)
 
  (Check (ctx (prev Nat)
              (motive (-> Nat Type))
@@ -365,7 +365,7 @@ Check `add1` is `(-> Nat Nat)`.
                          (motive (add1 prev))))))
    prev Nat)
 
- ((=> Check lookup))
+ (=> Check lookup)
 
  (Check (ctx (prev Nat)
              (motive (-> Nat Type))
@@ -376,5 +376,5 @@ Check `add1` is `(-> Nat Nat)`.
    (prev motive base step)
    Nat)
 
- ((=> omitted)))
+ (=> omitted))
 ```
