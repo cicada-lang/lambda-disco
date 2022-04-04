@@ -130,6 +130,9 @@ Compare the definition of `Nat` to the type of `ind-Nat`.
 
 We get `Nat` by making the target of `ind-Nat`'s type the **self type**.
 
+- This trick of shifting one argument,
+  is just like the trick between `factorial` and `factorial-wrap`.
+
 This is derivable from the definition of `ind-Nat`,
 which just apply the `target` to the reset of the arguments.
 
