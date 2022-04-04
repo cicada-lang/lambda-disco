@@ -141,6 +141,25 @@ which just apply the `target` to the reset of the arguments.
   (target motive base step))
 ```
 
+- The story goes like this:
+
+  We know `ind-Nat`'s type.
+  It is an expression of mathematical induction.
+
+  How to implement it's function body?
+  There are infinitely many ways to do this.
+  Let's choose the most simple definition
+  that takes into account all the information available,
+  namely `(target motive base step)`.
+
+  We get lambda encoding in this way.
+
+  And we can try to solve `Nat`,
+  i.e. to find a definition of `Nat`
+  that works with `ind-Nat`'s definition.
+
+  And we invent self type.
+
 Note that, in the defining of `Nat`,
 `zero` and `add1` occurred,
 but the type of `zero` is `Nat`.
