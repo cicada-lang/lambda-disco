@@ -107,7 +107,7 @@ Here comes **self type**.
 ```scheme
 (define Nat
   (Self (target)
-    (Pi ((motive (-> Nat Type))
+    (Pi ((motive (Pi ((target Nat)) Type))
          (base (motive zero))
          (step (Pi ((prev Nat)
                     (almost (motive prev)))
@@ -115,7 +115,30 @@ Here comes **self type**.
       (motive target))))
 ```
 
-Note that, in the defining of `Nat`,
+Compare the definition of `Nat` to the type of `ind-Nat`.
+
+```scheme
+(claim ind-Nat
+  (Pi ((target Nat)
+       (motive (Pi ((target Nat)) Type))
+       (base (motive zero))
+       (step (Pi ((prev Nat)
+                  (almost (motive prev)))
+               (motive (add1 prev)))))
+    (motive target)))
+```
+
+We get `Nat` by making the target of `ind-Nat`'s type the **self type**.
+
+This is derivable from the definition of `ind-Nat`,
+which just apply the `target` to the reset of the arguments.
+
+```scheme
+(define (ind-Nat target motive base step)
+  (target motive base step))
+```
+
+Also note that, in the defining of `Nat`,
 `zero` and `add1` occurred,
 but the type of `zero` is `Nat`.
 
