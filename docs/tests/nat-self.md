@@ -19,25 +19,6 @@ because we want to infer application of `ind-Nat`.
 
 (define (ind-Nat target motive base step)
   (target motive base step))
-
-;; NOTE Maybe we should also allow the following syntax.
-
-(claim ind-Nat
-  (Pi ((target Nat)
-       ((motive (target Nat)) Type)
-       (base (motive zero))
-       ((step (prev Nat)
-              (almost (motive prev)))
-        (motive (add1 prev))))
-    (motive target)))
-
-(claim (ind-Nat (target Nat)
-         ((motive (target Nat)) Type)
-         (base (motive zero))
-         ((step (prev Nat)
-                (almost (motive prev)))
-          (motive (add1 prev))))
-  (motive target))
 ```
 
 We already know `(ind-Nat zero motive)`
@@ -428,4 +409,25 @@ Check `add1` is `(-> Nat Nat)`.
    Nat)
 
  (=> omitted))
+```
+
+# The Notion of Contradiction
+
+```scheme
+(define Absurd (Pi ((T Type)) T))
+
+(claim from-falsehood-anything
+  (Pi ((target Absurd)
+       (motive Type))
+    motive))
+
+(define (from-falsehood-anything target motive)
+  (target motive))
+```
+
+```scheme
+(claim Equal (Pi ((A Type) (x A) (y A)) Type))
+(define (Equal A x y)
+  (Pi ((C (-> A Type)))
+    (-> (C x) (C y))))
 ```
