@@ -1,15 +1,20 @@
-- read self type paper
+> Before implement something, think about it's tests first.
 
-- how tdd will improve my understanding of lambda-cube?
+- setup bidirectional type checking to `cicada-lang/lambda`
+- implement coc first -- to compare with coq
+- implement lambda-cube -- study limitation of less powerful languages
 
-- add bidirectional type checking to lambda
+# learn
 
-# Why?
+> To learn self types, i think i need to learn lambda-cube and CoC,
+> And the bast way to learn lambda-cube and CoC is to implement it.
 
-- to learn self types, i think i need to learn lambda-cube and CoC.
+- [self type] read self type paper
+- [self type] fu peng and his teacher's language projects
 
-  - the bast way to learn lambda-cube and CoC is to implement it.
+- [coq] coq-in-a-hurry
+- [coq] software-foundations
+- [coq] cpdt
 
-    - we can learn CoC with Coq.
-
-  - lambda cube founding paper: ~/persons/henk-barendregt/intro/introduction-to-generalized-type-systems.pdf
+- [lambda cube] lambda cube paper
+  ~/persons/henk-barendregt/intro/introduction-to-generalized-type-systems.pdf
