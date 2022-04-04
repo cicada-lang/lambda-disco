@@ -416,7 +416,7 @@ Check `add1` is `(-> Nat Nat)`.
 ## Absurd
 
 ```scheme
-(define Absurd (Pi ((T Type)) T))
+(define Absurd (Pi ((A Type)) A))
 
 (claim from-falsehood-anything
   (Pi ((target Absurd)
@@ -427,7 +427,7 @@ Check `add1` is `(-> Nat Nat)`.
   (target motive))
 ```
 
-## Equal
+## Equal (Leibniz)
 
 ```scheme
 (claim Equal
@@ -440,9 +440,14 @@ Check `add1` is `(-> Nat Nat)`.
   (Pi ((motive (-> A Type))
        (base (motive from)))
     (motive to)))
-```
 
-```scheme
+(claim same
+  (Pi ((A Type) (a A))
+    (Equal A a a)))
+
+(define (same A a)
+  (lambda (motive base) base))
+
 (claim replace
   (Pi/implicit ((A Type) (from A) (to A))
     (Pi ((target (Equal A from to))
@@ -454,4 +459,22 @@ Check `add1` is `(-> Nat Nat)`.
   (lambda/implicit (A from to)
     (lambda (target motive base)
       (target base))))
+```
+
+Fu Peng proposes to use the following `Absurd`.
+
+```scheme
+(define Absurd
+  (Pi ((A Type) (from A) (to A))
+    (Equal A from to)))
+
+(claim from-falsehood-anything-equals
+  (Pi ((target Absurd)
+       (A Type)
+       (from A)
+       (to A))
+    (Equal A from to)))
+
+(define (from-falsehood-anything-equals target A from to)
+  (target A from to))
 ```
