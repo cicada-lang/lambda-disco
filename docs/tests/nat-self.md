@@ -440,17 +440,18 @@ Check `add1` is `(-> Nat Nat)`.
   (Pi ((motive (-> A Type))
        (base (motive from)))
     (motive to)))
+```
 
+```scheme
 (claim replace
-  (Pi ((A Type)
-       (from A)
-       (to A)
-       (target (Equal A from to))
-       (motive (-> A Type))
-       (base (motive from)))
-    (motive to)))
+  (Pi/implicit ((A Type) (from A) (to A))
+    (Pi ((target (Equal A from to))
+         (motive (-> A Type))
+         (base (motive from)))
+      (motive to))))
 
 (define replace
-  (lambda (A from to target motive base)
-    (target base)))
+  (lambda/implicit (A from to)
+    (lambda (target motive base)
+      (target base))))
 ```
