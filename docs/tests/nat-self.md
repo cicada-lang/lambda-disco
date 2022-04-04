@@ -123,6 +123,12 @@ This means we must define them as a group.
 
 - [Wikipedia / Impredicativity](https://en.wikipedia.org/wiki/Impredicativity)
 
+- In the _System S_ of Fu Peng,
+  the definition of `Nat` can referece `zero` and `add1`
+  recursively.
+
+  - Called "clusure" by Fu Peng, and is used as part of the context.
+
 # Judgment of self type
 
 ```scheme
