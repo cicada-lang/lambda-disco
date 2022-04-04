@@ -1,7 +1,5 @@
 - read self type paper
 
-- a syntax for deduction -- reverse the direction of inference rules
-
 - how tdd will improve my understanding of lambda-cube?
 
 - add bidirectional type checking to lambda
