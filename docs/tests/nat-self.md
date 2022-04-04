@@ -95,6 +95,14 @@ Here comes **self type**.
       (motive target))))
 ```
 
+Note that, in the defining of `Nat`,
+`zero` and `add1` occurred,
+but the type of `zero` is `Nat`.
+
+This means we must define them as a group.
+
+- [Wikipedia / Impredicativity](https://en.wikipedia.org/wiki/Impredicativity)
+
 # Judgment of self type
 
 ```scheme
@@ -146,6 +154,14 @@ Here comes **self type**.
 
 Check `zero` is `Nat`.
 
+- The syntax `(deduction)` is linear.
+
+  - We can do this because the arity of a rule is fixed.
+
+  - Thinking about constructing a stack of
+    goals and application of rules,
+    then execute them reversely.
+
 ```scheme
 (deduction
  (Check (ctx)
@@ -157,57 +173,70 @@ Check `zero` is `Nat`.
                   (-> (motive prev)
                       (motive (add1 prev))))))
        (motive target))))
- ((=> Check self-abstraction)
-  (Check (ctx)
-    zero
-    (Pi ((motive (-> Nat Type))
-         (base (motive zero))
-         (step (Pi ((prev Nat))
-                 (-> (motive prev)
-                     (motive (add1 prev))))))
-      (motive zero)))
-  ((=> definition of zero)
-   (Check (ctx)
-     (lambda (motive base step) base)
-     (Pi ((motive (-> Nat Type))
-          (base (motive zero))
-          (step (Pi ((prev Nat))
-                  (-> (motive prev)
-                      (motive (add1 prev))))))
-       (motive zero)))
-   ((=> Check abstraction)
-    (Check (ctx ((motive (-> Nat Type))
-                 (base (motive zero))
-                 (step (Pi ((prev Nat))
-                         (-> (motive prev)
-                             (motive (add1 prev)))))))
-      (motive zero)
-      Type)
-    ((=> Check application)
-     (Check (ctx ((motive (-> Nat Type))
-                  (base (motive zero))
-                  (step (Pi ((prev Nat))
-                          (-> (motive prev)
-                              (motive (add1 prev)))))))
-       motive
-       (-> Nat Type))
-     ((=> Check lookup))
-     (Check (ctx ((motive (-> Nat Type))
-                  (base (motive zero))
-                  (step (Pi ((prev Nat))
-                          (-> (motive prev)
-                              (motive (add1 prev)))))))
-       zero Nat)
-     ;; NOTE Why `zero` is of type `Nat` here?
-     ((=> How?)))
-    (Check (ctx ((motive (-> Nat Type))
-                 (base (motive zero))
-                 (step (Pi ((prev Nat))
-                         (-> (motive prev)
-                             (motive (add1 prev)))))))
-      base
-      (motive zero))
-    ((=> Check lookup))))))
+
+ (=> Check self-abstraction)
+
+ (Check (ctx)
+   zero
+   (Pi ((motive (-> Nat Type))
+        (base (motive zero))
+        (step (Pi ((prev Nat))
+                (-> (motive prev)
+                    (motive (add1 prev))))))
+     (motive zero)))
+
+ (=> definition of zero)
+
+ (Check (ctx)
+   (lambda (motive base step) base)
+   (Pi ((motive (-> Nat Type))
+        (base (motive zero))
+        (step (Pi ((prev Nat))
+                (-> (motive prev)
+                    (motive (add1 prev))))))
+     (motive zero)))
+
+ (=> Check abstraction)
+
+ (Check (ctx ((motive (-> Nat Type))
+              (base (motive zero))
+              (step (Pi ((prev Nat))
+                      (-> (motive prev)
+                          (motive (add1 prev)))))))
+   (motive zero)
+   Type)
+
+ (=> Check application)
+
+ (Check (ctx ((motive (-> Nat Type))
+              (base (motive zero))
+              (step (Pi ((prev Nat))
+                      (-> (motive prev)
+                          (motive (add1 prev)))))))
+   motive
+   (-> Nat Type))
+
+ (=> Check lookup)
+
+ (Check (ctx ((motive (-> Nat Type))
+              (base (motive zero))
+              (step (Pi ((prev Nat))
+                      (-> (motive prev)
+                          (motive (add1 prev)))))))
+   zero Nat)
+
+ ;; NOTE Why `zero` is of type `Nat` here?
+ ((=> How?))
+
+ (Check (ctx ((motive (-> Nat Type))
+              (base (motive zero))
+              (step (Pi ((prev Nat))
+                      (-> (motive prev)
+                          (motive (add1 prev)))))))
+   base
+   (motive zero))
+
+ ((=> Check lookup)))
 ```
 
 Check `add1` is `(-> Nat Nat)`.
@@ -215,94 +244,111 @@ Check `add1` is `(-> Nat Nat)`.
 ```scheme
 (deduction
  (Check (ctx) add1 (-> Nat Nat))
- ((=> definition of add1 and Nat)
-  (Check (ctx)
-    (lambda (prev)
-      (lambda (motive base step)
-        (step prev (prev motive base step))))
-    (-> Nat
-        (Self (target)
-          (Pi ((motive (-> Nat Type))
-               (base (motive zero))
-               (step (Pi ((prev Nat))
-                       (-> (motive prev)
-                           (motive (add1 prev))))))
-            (motive target)))))
-  ((=> Check abstraction)
-   (Check (ctx (prev Nat))
+
+ (=> definition of add1 and Nat)
+
+ (Check (ctx)
+   (lambda (prev)
      (lambda (motive base step)
-       (step prev (prev motive base step)))
-     (Self (target)
-       (Pi ((motive (-> Nat Type))
-            (base (motive zero))
-            (step (Pi ((prev Nat))
-                    (-> (motive prev)
-                        (motive (add1 prev))))))
-         (motive target)))))
-  ((=> Check self-abstraction)
-   (Check (ctx (prev Nat))
-     (lambda (motive base step)
-       (step prev (prev motive base step)))
+       (step prev (prev motive base step))))
+   (-> Nat
+       (Self (target)
+         (Pi ((motive (-> Nat Type))
+              (base (motive zero))
+              (step (Pi ((prev Nat))
+                      (-> (motive prev)
+                          (motive (add1 prev))))))
+           (motive target)))))
+
+ (=> Check abstraction)
+
+ (Check (ctx (prev Nat))
+   (lambda (motive base step)
+     (step prev (prev motive base step)))
+   (Self (target)
      (Pi ((motive (-> Nat Type))
           (base (motive zero))
           (step (Pi ((prev Nat))
                   (-> (motive prev)
                       (motive (add1 prev))))))
-       (motive (lambda (motive base step)
-                 (step prev (prev motive base step))))))
-   ((=> Check abstraction)
-    (Check (ctx (prev Nat)
-                (motive (-> Nat Type))
-                (base (motive zero))
-                (step (Pi ((prev Nat))
-                        (-> (motive prev)
-                            (motive (add1 prev))))))
-      ((step prev) (prev motive base step))
-      (motive (lambda (motive base step)
-                (step prev (prev motive base step)))))
-    ((=> Check application)
-     (Check (ctx (prev Nat)
-                 (motive (-> Nat Type))
-                 (base (motive zero))
-                 (step (Pi ((prev Nat))
-                         (-> (motive prev)
-                             (motive (add1 prev))))))
-       (step prev)
-       (-> (motive prev)
-           (motive (add1 prev)))
-       (comments
-         This is where target (the self value) is used.
-         (assert-equal
-           (add1 prev)
-           (lambda (motive base step)
-             (step prev (prev motive base step))))))
-     ((=> Check application)
-      (Check (ctx (prev Nat)
-                  (motive (-> Nat Type))
-                  (base (motive zero))
-                  (step (Pi ((prev Nat))
-                          (-> (motive prev)
-                              (motive (add1 prev))))))
-        step
-        (Pi ((prev Nat))
-          (-> (motive prev)
-              (motive (add1 prev)))))
-      ((=> Check lookup))
-      (Check (ctx (prev Nat)
-                  (motive (-> Nat Type))
-                  (base (motive zero))
-                  (step (Pi ((prev Nat))
-                          (-> (motive prev)
-                              (motive (add1 prev))))))
-        prev Nat)
-      ((=> Check lookup)))
-     (Check (ctx (prev Nat)
-                 (motive (-> Nat Type))
-                 (base (motive zero))
-                 (step (Pi ((prev Nat))
-                         (-> (motive prev)
-                             (motive (add1 prev))))))
-       (prev motive base step)
-       Nat)
-     ((=> omitted)))))))
+       (motive target))))
+
+ (=> Check self-abstraction)
+
+ (Check (ctx (prev Nat))
+   (lambda (motive base step)
+     (step prev (prev motive base step)))
+   (Pi ((motive (-> Nat Type))
+        (base (motive zero))
+        (step (Pi ((prev Nat))
+                (-> (motive prev)
+                    (motive (add1 prev))))))
+     (motive (lambda (motive base step)
+               (step prev (prev motive base step))))))
+
+ (=> Check abstraction)
+
+ (Check (ctx (prev Nat)
+             (motive (-> Nat Type))
+             (base (motive zero))
+             (step (Pi ((prev Nat))
+                     (-> (motive prev)
+                         (motive (add1 prev))))))
+   ((step prev) (prev motive base step))
+   (motive (lambda (motive base step)
+             (step prev (prev motive base step)))))
+
+ (=> Check application)
+
+ (Check (ctx (prev Nat)
+             (motive (-> Nat Type))
+             (base (motive zero))
+             (step (Pi ((prev Nat))
+                     (-> (motive prev)
+                         (motive (add1 prev))))))
+   (step prev)
+   (-> (motive prev)
+       (motive (add1 prev)))
+   (comments
+     This is where target (the self value) is used.
+     (assert-equal
+       (add1 prev)
+       (lambda (motive base step)
+         (step prev (prev motive base step))))))
+
+ (=> Check application)
+
+ (Check (ctx (prev Nat)
+             (motive (-> Nat Type))
+             (base (motive zero))
+             (step (Pi ((prev Nat))
+                     (-> (motive prev)
+                         (motive (add1 prev))))))
+   step
+   (Pi ((prev Nat))
+     (-> (motive prev)
+         (motive (add1 prev)))))
+
+ ((=> Check lookup))
+
+ (Check (ctx (prev Nat)
+             (motive (-> Nat Type))
+             (base (motive zero))
+             (step (Pi ((prev Nat))
+                     (-> (motive prev)
+                         (motive (add1 prev))))))
+   prev Nat)
+
+ ((=> Check lookup))
+
+ (Check (ctx (prev Nat)
+             (motive (-> Nat Type))
+             (base (motive zero))
+             (step (Pi ((prev Nat))
+                     (-> (motive prev)
+                         (motive (add1 prev))))))
+   (prev motive base step)
+   Nat)
+
+ ((=> omitted)))
 ```
