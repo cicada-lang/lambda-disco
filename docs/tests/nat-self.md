@@ -413,6 +413,8 @@ Check `add1` is `(-> Nat Nat)`.
 
 # The Notion of Contradiction
 
+## Absurd
+
 ```scheme
 (define Absurd (Pi ((T Type)) T))
 
@@ -425,9 +427,30 @@ Check `add1` is `(-> Nat Nat)`.
   (target motive))
 ```
 
+## Equal
+
 ```scheme
-(claim Equal (Pi ((A Type) (x A) (y A)) Type))
-(define (Equal A x y)
-  (Pi ((C (-> A Type)))
-    (-> (C x) (C y))))
+(claim Equal
+  (Pi ((A Type)
+       (from A)
+       (to A))
+    Type))
+
+(define (Equal A from to)
+  (Pi ((motive (-> A Type))
+       (base (motive from)))
+    (motive to)))
+
+(claim replace
+  (Pi ((A Type)
+       (from A)
+       (to A)
+       (target (Equal A from to))
+       (motive (-> A Type))
+       (base (motive from)))
+    (motive to)))
+
+(define replace
+  (lambda (A from to target motive base)
+    (target base)))
 ```
