@@ -12,7 +12,12 @@
 - [self type] read self type paper
 - [self type] fu peng and his teacher's language projects
 
-- [coq] cpdt
-
 - [lambda cube] lambda cube paper
   ~/persons/henk-barendregt/intro/introduction-to-generalized-type-systems.pdf
+
+> To learn how Coq uses Fixpoint to handle recursion,
+> and how Coq handles equivalence between recursive functions.
+
+- [coq] coq-in-a-hurry
+- [coq] logical-foundations -- first chapter
+- [coq] cpdt
