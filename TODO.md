@@ -1,6 +1,6 @@
 > Before implement something, think about it's tests first.
 
-- setup bidirectional type checking to `cicada-lang/lambda`
+- setup bidirectional type checking
 - implement coc first -- to compare with coq
 - implement lambda-cube -- study limitation of less powerful languages
 
