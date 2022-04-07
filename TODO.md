@@ -1,3 +1,5 @@
+- update to new `cicada-lang/lambda`
+
 > Before implement something, think about it's tests first.
 
 - setup bidirectional type checking
