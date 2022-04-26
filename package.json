@@ -1,19 +1,19 @@
 {
-  "name": "@cicada-lang/lambda-cube",
+  "name": "@cicada-lang/lambda-disco",
   "version": "0.0.3",
-  "repository": "github:cicada-lang/lambda-cube",
+  "repository": "github:cicada-lang/lambda-disco",
   "files": [
     "lib"
   ],
   "bin": {
-    "lambda-cube": "bin/lambda-cube.js"
+    "lambda-disco": "bin/lambda-disco.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
     "test:test-case": "enchanter test 'test-case run' 'lib/**/*.case.js'",
     "test:js": "enchanter test node 'lib/**/*.test.js'",
-    "test:lambda-cube": "enchanter test './bin/lambda-cube.js run' 'docs/tests/**/*.(scm|md)'",
+    "test:lambda-disco": "enchanter test './bin/lambda-disco.js run' 'docs/tests/**/*.(scm|md)'",
     "test": "npm-run-all test:*",
     "format": "prettier src docs --write"
   },
